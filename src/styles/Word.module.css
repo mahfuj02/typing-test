@@ -1,0 +1,10 @@
+.correct{
+    background-color: green;
+    color: white;
+}
+.incorrect{
+    background-color: red;
+}
+.active{
+    font-weight: bold;
+}
