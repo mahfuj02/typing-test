@@ -2,6 +2,7 @@ import classes from "../styles/Word.module.css";
 
 export default function Word(porps){
     const{text, active, correct} = porps;
+    console.log(correct," correct status.. ")
     if(active){
         return <span className={classes.active}>{text} </span>
     }

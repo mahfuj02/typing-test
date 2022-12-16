@@ -18,13 +18,12 @@ export default function Home() {
   const processInput = (value) => {
     if (value.endsWith(" ")) {
 
-    //   setActiveWordIndex(data => {
-    //     const word = value.trim();
-    //     // const newState = [...data]
-    //     // newState[activeWordIndex] = word === cloud.current[activeWordIndex];
-    //     // return newState
-    //     return word === cloud.current[activeWordIndex];
-    //   })
+        setCorrectWordArray(data => {
+        const word = value.trim();
+        const newState = [...data]
+        newState[activeWordIndex] = word === cloud.current[activeWordIndex];
+        return newState
+      })
       setActiveWordIndex((index) => index + 1);
       setUserInput("");
 
@@ -34,7 +33,7 @@ export default function Home() {
   };
   return (
     <div className={classes.container}>
-      <h1>Test Your Typing Skills..!</h1>
+      <h1>Test Your Typing Skill..!</h1>
       <p>
         {cloud.current.map((word, index) => {
           return (
