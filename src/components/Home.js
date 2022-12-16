@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import classes from "../styles/Home.module.css";
 import Word from "./Word";
-
+import Timer from "./Timer";
 const getCloud = () =>
   `simply dummy text of the printing and typesetting industry. 
   Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
@@ -13,27 +13,31 @@ export default function Home() {
   const [userInput, setUserInput] = useState("");
   const [activeWordIndex, setActiveWordIndex] = useState(0);
   const [correctWordArray, setCorrectWordArray] = useState([]);
+  const [startCounting, setStartCounting] = useState(false);
+
   const cloud = useRef(getCloud());
 
-  const processInput = (value) => {
+  function processInput(value) {
+    if (!startCounting) {
+      setStartCounting(true);
+    }
     if (value.endsWith(" ")) {
-
-        setCorrectWordArray(data => {
+      setCorrectWordArray((data) => {
         const word = value.trim();
-        const newState = [...data]
+        const newState = [...data];
         newState[activeWordIndex] = word === cloud.current[activeWordIndex];
-        return newState
-      })
+        return newState;
+      });
       setActiveWordIndex((index) => index + 1);
       setUserInput("");
-
     } else {
       setUserInput(value);
     }
-  };
+  }
   return (
     <div className={classes.container}>
       <h1>Test Your Typing Skill..!</h1>
+      <Timer startCounting={startCounting} />
       <p>
         {cloud.current.map((word, index) => {
           return (
