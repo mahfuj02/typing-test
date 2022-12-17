@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import Result from "./Results";
 
-export default function Timer({startCounting}) {
+export default function Timer({ startCounting, correctWords }) {
   const [timeElapsed, settimeElapsed] = useState(0);
 
   useEffect(() => {
@@ -10,5 +11,10 @@ export default function Timer({startCounting}) {
       }, 1000);
     }
   }, [startCounting]);
-  return <div>Time: {timeElapsed}</div>;
+  return (
+    <>
+      <div>Time: {timeElapsed} second</div>
+      <Result correctWords = {correctWords} minutes = {timeElapsed/60}  />
+    </>
+  );
 }

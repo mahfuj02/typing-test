@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <div className={classes.container}>
       <h1>Test Your Typing Skill..!</h1>
-      <Timer startCounting={startCounting} />
+      <Timer startCounting={startCounting} correctWords = {correctWordArray.length} />
       <p>
         {cloud.current.map((word, index) => {
           return (
