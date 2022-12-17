@@ -1,12 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import classes from "../styles/Home.module.css";
 import Word from "./Word";
 import Timer from "./Timer";
 const getCloud = () =>
-  `simply dummy text of the printing and typesetting industry. 
-  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-  , when an unknown printer took a galley of type and scrambled it to make a type 
-  specimen book. It has survived not only five centuries,`.split(" ");
+  `simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries`.split(
+    " "
+  );
 // .sort(() => (Math.random() > 0.5 ? 1 : -1));
 
 export default function Home() {
@@ -18,10 +17,19 @@ export default function Home() {
   const cloud = useRef(getCloud());
 
   function processInput(value) {
+    if (activeWordIndex === cloud.current.length) {
+      return;
+    }
     if (!startCounting) {
       setStartCounting(true);
     }
     if (value.endsWith(" ")) {
+      if (activeWordIndex === cloud.current.length - 1) {
+        setStartCounting(false);
+        setUserInput("Test Completed");
+      } else {
+        setUserInput("");
+      }
       setCorrectWordArray((data) => {
         const word = value.trim();
         const newState = [...data];
@@ -29,7 +37,6 @@ export default function Home() {
         return newState;
       });
       setActiveWordIndex((index) => index + 1);
-      setUserInput("");
     } else {
       setUserInput(value);
     }
@@ -37,7 +44,10 @@ export default function Home() {
   return (
     <div className={classes.container}>
       <h1>Test Your Typing Skill..!</h1>
-      <Timer startCounting={startCounting} correctWords = {correctWordArray.length} />
+      <Timer
+        startCounting={startCounting}
+        correctWords={correctWordArray.filter(Boolean).length}
+      />
       <p>
         {cloud.current.map((word, index) => {
           return (

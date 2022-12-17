@@ -5,16 +5,20 @@ export default function Timer({ startCounting, correctWords }) {
   const [timeElapsed, settimeElapsed] = useState(0);
 
   useEffect(() => {
+    let id;
     if (startCounting) {
-      setInterval(() => {
+      id = setInterval(() => {
         settimeElapsed((oldTime) => oldTime + 1);
       }, 1000);
     }
+    return () => {
+      clearInterval(id);
+    };
   }, [startCounting]);
   return (
     <>
-      <div>Time: {timeElapsed} second</div>
-      <Result correctWords = {correctWords} minutes = {timeElapsed/60}  />
+      <div><b>Time:</b> {timeElapsed} second</div>
+      <Result correctWords={correctWords} minutes={timeElapsed / 60} />
     </>
   );
 }
