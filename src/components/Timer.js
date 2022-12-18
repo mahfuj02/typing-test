@@ -3,7 +3,7 @@ import { Box, Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import Result from "./Results";
 
-export default function Timer({ startCounting, correctWords, totalWords }) {
+export default function Timer({ startCounting, correctWords, totalWords, resetClock }) {
   const [timeElapsed, settimeElapsed] = useState(0);
   useEffect(() => {
     let id;
@@ -12,10 +12,13 @@ export default function Timer({ startCounting, correctWords, totalWords }) {
         settimeElapsed((oldTime) => oldTime + 1);
       }, 1000);
     }
+    if(resetClock){
+      settimeElapsed(0); 
+    }
     return () => {
       clearInterval(id);
     };
-  }, [startCounting]);
+  }, [startCounting, resetClock]);
   return (
     <Stack direction="row" spacing={5}>
       <Box

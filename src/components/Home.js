@@ -4,7 +4,16 @@ import Word from "./Word";
 import Timer from "./Timer";
 
 // MUI
-import { TextField, Input, Container, Autocomplete, Typography, Stack, CssBaseline, Button } from "@mui/material";
+import {
+  TextField,
+  Input,
+  Container,
+  Autocomplete,
+  Typography,
+  Stack,
+  CssBaseline,
+  Button,
+} from "@mui/material";
 import { Box } from "@mui/system";
 
 const getCloud = () =>
@@ -17,12 +26,16 @@ export default function Home() {
   const [activeWordIndex, setActiveWordIndex] = useState(0);
   const [correctWordArray, setCorrectWordArray] = useState([]);
   const [startCounting, setStartCounting] = useState(false);
+  const [resetClock, setResetClock] = useState(false)
 
   const cloud = useRef(getCloud());
 
   function processInput(value) {
     if (activeWordIndex === cloud.current.length) {
       return;
+    }
+    if(resetClock){
+      setResetClock(false)
     }
     if (!startCounting) {
       setStartCounting(true);
@@ -51,26 +64,35 @@ export default function Home() {
     setActiveWordIndex(0);
     setCorrectWordArray([]);
     setStartCounting(false);
+    setResetClock(true);
     cloud.current = getCloud();
   }
   return (
-    <Stack alignItems="center" >
+    <Stack alignItems="center">
       <CssBaseline />
-      <Typography fontWeight="600" variant="h2" align="center" sx={{marginBottom:5, marginTop:8}}>
+      <Typography
+        fontWeight="600"
+        variant="h2"
+        align="center"
+        sx={{ marginBottom: 5, marginTop: 8 }}
+      >
         Simple Speed Typing
       </Typography>
       <Timer
         startCounting={startCounting}
         correctWords={correctWordArray.filter(Boolean).length}
         totalWords={correctWordArray.length}
+        resetClock={resetClock}
       />
-      <Box sx={{
-        width:'80%',
-        border:1,
-        padding:2,
-        marginBottom:5,
-        alignContent:"center"
-      }}>
+      <Box
+        sx={{
+          width: "80%",
+          border: 1,
+          padding: 2,
+          marginBottom: 5,
+          alignContent: "center",
+        }}
+      >
         {cloud.current.map((word, index) => {
           return (
             <Word
@@ -82,19 +104,19 @@ export default function Home() {
         })}
       </Box>
       <Input
-        sx={{width:'80%'}}
+        sx={{ width: "80%" }}
         placeholder="Start Typing"
         value={userInput}
         onChange={(e) => processInput(e.target.value)}
       />
-      {/* <input
-        placeholder="start typing..."
-        type="text"
-        value={userInput}
-        onChange={(e) => processInput(e.target.value)}
-      /> */}
       <div>
-        <Button sx={{marginTop:5}} variant="outlined" onClick={(e) => resetTest()} > RESET </Button> 
+        <Button
+          sx={{ marginTop: 5 }}
+          variant="outlined"
+          onClick={(e) => resetTest()}
+        >
+          RESET
+        </Button>
       </div>
     </Stack>
   );
