@@ -2,6 +2,11 @@ import { useState, useRef } from "react";
 import classes from "../styles/Home.module.css";
 import Word from "./Word";
 import Timer from "./Timer";
+
+// MUI
+import { TextField, Input, Container, Autocomplete, Typography, Stack, CssBaseline, Button } from "@mui/material";
+import { Box } from "@mui/system";
+
 const getCloud = () =>
   `simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries`
     .split(" ")
@@ -46,17 +51,26 @@ export default function Home() {
     setActiveWordIndex(0);
     setCorrectWordArray([]);
     setStartCounting(false);
-    cloud.current = getCloud()
+    cloud.current = getCloud();
   }
   return (
-    <div className={classes.container}>
-      <h1>Test Your Typing Skill..!</h1>
+    <Stack alignItems="center" >
+      <CssBaseline />
+      <Typography fontWeight="600" variant="h2" align="center" sx={{marginBottom:5, marginTop:8}}>
+        Simple Speed Typing
+      </Typography>
       <Timer
         startCounting={startCounting}
         correctWords={correctWordArray.filter(Boolean).length}
         totalWords={correctWordArray.length}
       />
-      <p>
+      <Box sx={{
+        width:'80%',
+        border:1,
+        padding:2,
+        marginBottom:5,
+        alignContent:"center"
+      }}>
         {cloud.current.map((word, index) => {
           return (
             <Word
@@ -66,16 +80,22 @@ export default function Home() {
             />
           );
         })}
-      </p>
-      <input
+      </Box>
+      <Input
+        sx={{width:'80%'}}
+        placeholder="Start Typing"
+        value={userInput}
+        onChange={(e) => processInput(e.target.value)}
+      />
+      {/* <input
         placeholder="start typing..."
         type="text"
         value={userInput}
         onChange={(e) => processInput(e.target.value)}
-      />
+      /> */}
       <div>
-        <button onClick={(e) => resetTest()}>Reset</button>
+        <Button sx={{marginTop:5}} variant="outlined" onClick={(e) => resetTest()} > RESET </Button> 
       </div>
-    </div>
+    </Stack>
   );
 }

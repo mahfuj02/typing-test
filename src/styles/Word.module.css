@@ -1,9 +1,8 @@
 .correct{
-    background-color: green;
-    color: white;
+    color: green;
 }
 .incorrect{
-    background-color: red;
+    color: red;
 }
 .active{
     font-weight: bold;

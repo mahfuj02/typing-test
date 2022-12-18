@@ -1,9 +1,10 @@
+import { Typography } from "@mui/material";
+import { Box, Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import Result from "./Results";
 
 export default function Timer({ startCounting, correctWords, totalWords }) {
   const [timeElapsed, settimeElapsed] = useState(0);
-
   useEffect(() => {
     let id;
     if (startCounting) {
@@ -11,18 +12,44 @@ export default function Timer({ startCounting, correctWords, totalWords }) {
         settimeElapsed((oldTime) => oldTime + 1);
       }, 1000);
     }
-    else{
-      settimeElapsed(0);
-    }
     return () => {
       clearInterval(id);
     };
   }, [startCounting]);
   return (
-    <>
-      <div><b>Time:</b> {timeElapsed} second</div>
-      <div>Error: {totalWords - correctWords} </div>
-      <Result correctWords={correctWords} minutes={timeElapsed / 60} />
-    </>
+    <Stack direction="row" spacing={5}>
+      <Box
+        align="center"
+        sx={{
+          width: 70,
+          height: 70,
+          color: "white",
+          backgroundColor: "primary.dark",
+          marginBottom: 4,
+          borderRadius:"10%",
+          boxShadow:10
+        }}
+      >
+        <Typography variant="h6"> time </Typography>
+        <Typography variant="h6"> {timeElapsed}s </Typography>
+      </Box>
+
+      <Box
+        align="center"
+        sx={{
+          width: 70,
+          height: 70,
+          color: "white",
+          backgroundColor: "error.light",
+          marginBottom: 4,
+          borderRadius:"10%",
+          boxShadow:10
+        }}
+      >
+        <Typography variant="h6"> error </Typography>
+        <Typography variant="h6"> {totalWords - correctWords} </Typography>
+      </Box>
+      <Result correctWords={correctWords} minutes={60 / timeElapsed} />
+    </Stack>
   );
 }
